@@ -1,0 +1,47 @@
+<div class="contenedor-plataforma" style="display: flex; height: 100vh; font-family: sans-serif;">
+  
+  <div class="panel-control" style="width: 350px; background: #2c3e50; color: white; padding: 20px; box-shadow: 4px 0 10px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <h2 style="margin-top: 0; border-bottom: 2px solid #34495e; padding-bottom: 10px; color: #ecf0f1;">MediFast</h2>
+      <p style="font-size: 13px; color: #bdc3c7;">Sistema Avanzado de Optimización de Rutas Críticas Médicas.</p>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-weight: bold; margin-bottom: 8px;">Algoritmo de Búsqueda:</label>
+        <select [(ngModel)]="algoritmoSeleccionado" style="width: 100%; padding: 10px; border-radius: 4px; background: #34495e; color: white; border: none;">
+          <option value="Dijkstra">Dijkstra (Línea Base)</option>
+          <option value="A*">A* (Heurística de Haversine)</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-weight: bold; margin-bottom: 8px;">Hora de Despacho (Tráfico):</label>
+        
+        <div style="margin-bottom: 10px; display: flex; align-items: center; font-size: 14px;">
+          <input type="checkbox" id="checkHora" [(ngModel)]="usarHoraReal" style="margin-right: 8px; cursor: pointer;">
+          <label for="checkHora" style="cursor: pointer; color: #f1c40f;">Sincronizar con hora real</label>
+        </div>
+
+        <select [(ngModel)]="horaSeleccionada" [disabled]="usarHoraReal" style="width: 100%; padding: 10px; border-radius: 4px; background: #34495e; color: white; border: none; opacity: usarHoraReal ? 0.5 : 1;">
+          <option [ngValue]="3">03:00 AM - Madrugada (Tránsito Libre)</option>
+          <option [ngValue]="12">12:00 PM - Hora Valle (Tránsito Regular)</option>
+          <option [ngValue]="18">18:00 PM - Hora Punta (Congestión Alta)</option>
+        </select>
+      </div>
+
+      <button (click)="calcularRuta()" style="width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
+        Calcular Ruta Óptima
+      </button>
+    </div>
+
+    <div style="background: #34495e; padding: 15px; border-radius: 6px; border-left: 4px solid #f1c40f;">
+      <h4 style="margin: 0 0 10px 0; color: #f1c40f; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Métricas del Servidor</h4>
+      <p style="margin: 5px 0; font-size: 14px;">Algoritmo: <strong>{{algoritmoSeleccionado}}</strong></p>
+      <p style="margin: 5px 0; font-size: 14px;">Nodos Evaluados: <strong>{{nodosEvaluados}}</strong></p>
+      <p style="margin: 5px 0; font-size: 14px;">Costo Ponderado: <strong>{{costoTotal}}</strong></p>
+      <p style="margin: 5px 0; font-size: 14px;">ETA (Tiempo Estimado): <strong style="color: #fff;">{{tiempoEstimado}}</strong></p>
+    </div>
+  </div>
+
+  <div id="mapa-contenedor" style="flex: 1; height: 100%;"></div>
+
+</div>
